@@ -1,7 +1,7 @@
 package main
 
 // logging in go, using the log package.
-// Go standard library provides a basic infrastructure for logging.
+// Go standard library provides log package as basic infrastructure for logging.
 // The main purposes of loggins is to get a trace of what is happening in programs.
 // Logging can be providing code tracing, profiling and analytics.
 // Logging is a way to find those bugs and learn more about how the program is functioning.
