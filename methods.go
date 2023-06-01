@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // Methods are functions that are associated with a type.
-// Methods are functions that have a receiver.
+// Methods are functions that have a receiver. Receive is a  struct type or interface.
 
 // Syntax: func (receiverName receiverType) methodName() returnType {}
 
