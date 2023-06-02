@@ -91,3 +91,32 @@ func pauseAudio(audioPlayer AudioPlayer) {
 func stopAudio(audioPlayer AudioPlayer) {
 	audioPlayer.Stop()
 }
+
+// type AuthMethod interface {
+// 	login() bool
+// }
+
+// type EmailPasswordLoginMethod struct {
+// 	email    string
+// 	password string
+// }
+
+// type GoogleLoginMethod struct {
+// 	userId        int
+// 	client_id     string
+// 	client_secret string
+// }
+
+// func (emailPasswordLogin EmailPasswordLoginMethod) login() bool {
+// 	fmt.Println("Authenticating user with email and password")
+// 	return true
+// }
+
+// func (googleLogin GoogleLoginMethod) login() bool {
+// 	fmt.Println("Authenticating user with google")
+// 	return true
+// }
+
+// func login(authMethod AuthMethod) bool {
+// 	return authMethod.login()
+// }
