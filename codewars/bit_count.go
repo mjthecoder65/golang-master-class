@@ -10,6 +10,7 @@ func CountBits(number uint) int {
 
 	for number > 0 {
 		remainder := number % 2
+
 		if remainder == 1 {
 			counter++
 		}
@@ -23,3 +24,7 @@ func CountBits(number uint) int {
 func CountBits2(number uint) int {
 	return bits.OnesCount(number)
 }
+
+// package kata
+// import "math/bits"
+// var CountBits = bits.OnesCount
