@@ -1,4 +1,4 @@
-# golang-master-class
+# Golang-master-class
 Create this repository for learning  and mastering Golang.
 Feel free to contribute.
 
