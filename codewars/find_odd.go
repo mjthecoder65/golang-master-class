@@ -2,6 +2,7 @@ package codewars
 
 //Question: https://www.codewars.com/kata/54da5a58ea159efa38000836/train/go
 
+// Solution1: Using xor operator
 func FindOdd(seq []int) int {
 	// Using xor operator.
 	// 0 ^ 0 = 0
@@ -18,6 +19,7 @@ func FindOdd(seq []int) int {
 	return result
 }
 
+// Solution2: Using map
 func FindOdd2(seq []int) int {
 	counter := make(map[int]int)
 
