@@ -1,5 +1,5 @@
 test:
-	go test -v -cover codewars
+	go test -v -cover ./...
 
 
 .PHONY: test
