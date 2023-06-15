@@ -31,23 +31,23 @@ func (structName structType) methodName() {
 }
 */
 
-func (account *Account) deposit(amount float64) {
+func (account *Account) Deposit(amount float64) {
 	account.balance += amount
 }
 
-func (account Account) getCurrentBalance() float64 {
+func (account Account) GetCurrentBalance() float64 {
 	return account.balance
 }
 
-func (account Account) withdraw(amount float64) {
+func (account *Account) Withdraw(amount float64) {
 	account.balance -= amount
 }
 
-func (account Account) getAccountNumber() int {
+func (account Account) GetAccountNumber() int {
 	return account.accountNumber
 }
 
-func testStruct() {
+func TestStruct() {
 
 	fmt.Println("Learning about structs.")
 
