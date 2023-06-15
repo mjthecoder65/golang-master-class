@@ -1,5 +1,5 @@
 test:
-	go test -v -cover github.com/mjthecoder65/golang-master-class/...
+	go test -v -cover codewars
 
 
 .PHONY: test
