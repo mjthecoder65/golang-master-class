@@ -1,5 +1,7 @@
 package codewars
 
+// Question: https://www.codewars.com/kata/523f5d21c841566fde000009/train/go
+
 func ArrayDiff(a []int, b []int) []int {
 
 	bucket := make(map[int]int)
