@@ -1,7 +1,5 @@
 package codewars
 
-import "math/bits"
-
 // Question: https://www.codewars.com/kata/526571aae218b8ee490006f4/train/go
 
 func CountBits(number uint) int {
@@ -21,9 +19,9 @@ func CountBits(number uint) int {
 }
 
 // Using built-in function.
-func CountBits2(number uint) int {
-	return bits.OnesCount(number)
-}
+// func CountBits2(number uint) int {
+// 	return bits.OnesCount(number)
+// }
 
 // package kata
 // import "math/bits"
