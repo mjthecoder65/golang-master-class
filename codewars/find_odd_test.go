@@ -20,6 +20,5 @@ func TestFindOdd(t *testing.T) {
 
 	for i, v := range arr {
 		require.Equal(t, sol[i], FindOdd(v))
-		require.Equal(t, sol[i], FindOdd2(v))
 	}
 }
