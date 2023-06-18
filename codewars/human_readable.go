@@ -2,8 +2,10 @@ package codewars
 
 import "fmt"
 
-const HOUR_IN_SECONDS int = 3600
-const MINUTE_IN_SECONDS int = 60
+const (
+	HOUR_IN_SECONDS   int = 3600
+	MINUTE_IN_SECONDS int = 60
+)
 
 func HumanReadableTime(seconds int) string {
 	hours := seconds / HOUR_IN_SECONDS
