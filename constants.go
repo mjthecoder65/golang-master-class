@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // constant is a name of or identifier for a fixed value.
 // Constants are immutable.
 // Keyword const is used to declare a constant.
@@ -12,7 +14,7 @@ package main
 // 1. Use all upper case letters.
 // 2. Use underscore to separate words.
 
-func testingConstants() {
+func TestingConstants() {
 	// Declaring a constant
 	const NUMBER_OF_ELEMENTS int = 10
 
@@ -24,5 +26,8 @@ func testingConstants() {
 		PI       float64 = 3.14159
 		LANGUAGE string  = "Go"
 	)
+
+	fmt.Printf("The value of PI is %f\n", PI)
+	fmt.Printf("The value of LANGUAGE is %s\n", LANGUAGE)
 
 }
