@@ -19,19 +19,21 @@ func FindOdd(seq []int) int {
 	return result
 }
 
-// // Solution2: Using map
-// func FindOdd2(seq []int) int {
-// 	counter := make(map[int]int)
+// Solution2: Using map
+func FindOdd2(seq []int) int {
+	counter := make(map[int]int)
 
-// 	for _, num := range seq {
-// 		counter[num]++
-// 	}
+	for index, num := range seq {
+		counter[num]++
+		if index == len(seq)-1 && counter[num]%2 != 0 {
+			return num
+		}
 
-// 	for num, count := range counter {
-// 		if count%2 != 0 {
-// 			return num
-// 		}
-// 	}
+		if counter[num] > 1 && counter[num]%2 != 0 {
+			return num
+		}
 
-// 	return 0
-// }
+	}
+
+	return 0
+}
