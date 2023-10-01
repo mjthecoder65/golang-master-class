@@ -9,6 +9,7 @@ Feel free to contribute.
 
 ## Problem 1
 ```go
+// Reverse characters of each word in a string.
 func reverseWord(word string) string {
 	runes := []rune(word)
 	left, right := 0, len(runes)-1
@@ -30,5 +31,72 @@ func ReverseWords(s string) string {
 	}
 
 	return strings.Join(words, " ")
+}
+```
+
+## Problem 2
+```go
+// Find two numbers whose sum equals the target
+func TwoSumHashTable(nums []int, target int) []int {
+	complements := make(map[int]int)
+
+	for index, num := range nums {
+		if _, ok := complements[num]; ok {
+			return []int{complements[num], index}
+		} else {
+			complements[target-num] = index
+		}
+	}
+
+	return nil
+}
+```
+
+## Problem 3
+```go
+// Reversing Linked List
+func ReverseList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	var previousNode *ListNode
+	currentNode := head
+
+	for currentNode != nil {
+		nextTemp := currentNode.Next
+		currentNode.Next = previousNode
+		previousNode = currentNode
+		currentNode = nextTemp
+	}
+
+	return previousNode
+}
+```
+
+## Problem 4
+```go
+// Merging two sorted Lists
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func MergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}
+
+	if list2 == nil {
+		return list1
+	}
+
+	if list1.Val <= list2.Val {
+		list1.Next = MergeTwoLists(list1.Next, list2)
+		return list1
+	} else {
+		list2.Next = MergeTwoLists(list1, list2.Next)
+		return list2
+	}
 }
 ```
