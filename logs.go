@@ -23,7 +23,7 @@ func init() {
 // Try to connect to SMPT server that does not exist
 // The program will print the error message and exit.
 
-func testingLogging() {
+func TestingLogging() {
 	client, err := smtp.Dial("smtp.smail.com:25")
 
 	if err != nil {
