@@ -4,21 +4,21 @@ package codewars
 
 func ArrayDiff(a []int, b []int) []int {
 
-	bucket := make(map[int]int)
-	results := make([]int, 0)
-
-	// Adding all elements in bucket.
-	for _, key := range b {
-		bucket[key] += 1
+	bucket := make(map[int]bool)
+	results := []int{}
+	// Adding all elements of slice b to bucket.
+	// To make a lookup faster.
+	for _, element := range b {
+		bucket[element] = true
 	}
 
 	// Looping through all elements in a.
-	for _, key := range a {
-		_, ok := bucket[key]
-		if !ok {
-			results = append(results, key)
+	// If the element is not in bucket, add it to results.
+	for _, element := range a {
+
+		if _, found := bucket[element]; !found {
+			results = append(results, element)
 		}
 	}
-
 	return results
 }

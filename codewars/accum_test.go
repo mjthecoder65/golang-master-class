@@ -7,9 +7,8 @@ import (
 )
 
 func TestAccum(t *testing.T) {
-	input := "abcd"
 
-	require.Equal(t, Accum(input), "A-Bb-Ccc-Dddd")
+	require.Equal(t, Accum("abcd"), "A-Bb-Ccc-Dddd")
 	require.Equal(t, Accum("ZpglnRxqenU"), "Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu")
 	require.Equal(t, Accum("NyffsGeyylB"), "N-Yy-Fff-Ffff-Sssss-Gggggg-Eeeeeee-Yyyyyyyy-Yyyyyyyyy-Llllllllll-Bbbbbbbbbbb")
 	require.Equal(t, Accum("MjtkuBovqrU"), "M-Jj-Ttt-Kkkk-Uuuuu-Bbbbbb-Ooooooo-Vvvvvvvv-Qqqqqqqqq-Rrrrrrrrrr-Uuuuuuuuuuu")
