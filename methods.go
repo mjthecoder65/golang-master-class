@@ -9,8 +9,8 @@ import "fmt"
 
 // Example:
 type EmailClient struct {
-	sender    string
-	vendorURL string
+	Sender    string
+	VendorURL string
 }
 
 // SendEmail is a method of EmailClient type.
@@ -20,8 +20,8 @@ func (emailClient EmailClient) SendEmail(email string) bool {
 	return true
 }
 
-func testingEmailClient() {
-	emailClient := EmailClient{sender: "michael.ngowi@gmail.com", vendorURL: "https://www.gmail.com"}
+func TestingEmailClient() {
+	emailClient := EmailClient{Sender: "michael.ngowi@gmail.com", VendorURL: "https://www.gmail.com"}
 	response := emailClient.SendEmail("jerrylusato@gmail.com")
 
 	if response {
