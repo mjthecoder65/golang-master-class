@@ -34,16 +34,19 @@ func TestDequeue(t *testing.T) {
 	queue.Enqueue(firstElement)
 	queue.Enqueue(secondElement)
 
-	peekedElement, err := queue.Dequeue()
+	removedElement, err := queue.Dequeue()
 	require.Nil(t, err)
-	require.Equal(t, firstElement, peekedElement)
-	require.Equal(t, 2, queue.Size())
-
-	queue.Dequeue()
-	peekedElement, err = queue.Dequeue()
-	require.Nil(t, err)
-	require.Equal(t, secondElement, peekedElement)
+	require.Equal(t, firstElement, removedElement)
 	require.Equal(t, 1, queue.Size())
+
+	removedElement, err = queue.Dequeue()
+	require.Nil(t, err)
+	require.Equal(t, secondElement, removedElement)
+	require.Equal(t, 0, queue.Size())
+
+	_, err = queue.Dequeue()
+	require.NotNil(t, err)
+
 }
 
 func TestPeek(t *testing.T) {
