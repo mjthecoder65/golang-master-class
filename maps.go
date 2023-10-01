@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func testMaps() {
+func TestMaps() {
 	// Creating a map
 	// A map is a collection of key-value pairs.
 	// A map is similar to a dictionary in Python.
@@ -19,7 +19,7 @@ func testMaps() {
 	// Syntax:
 	// mapName := make(map[keyDataType]valueDataType, initialCapacity)
 
-	// Example:
+	// Example: Good practice to initialize the map with an initial capacity.
 	balances := make(map[string]int, 10)
 
 	// Adding key-value pairs to a map
@@ -36,13 +36,14 @@ func testMaps() {
 	// ok is a boolean value
 	// ok is true if the key exists in the map
 
-	value, exists := balances["Michael"]
-
-	if exists {
+	if value, ok := balances["Michael"]; ok {
 		fmt.Printf("Michael's balance is %v\n", value)
 	} else {
 		fmt.Println("Key Michael does not exist in the map")
 	}
+
+	// Get the length of a map
+	fmt.Printf("Length of balances is %v\n", len(balances))
 
 	// Interating over a map
 	for key, value := range balances {
@@ -52,5 +53,4 @@ func testMaps() {
 	// Maps are unordered data structures. The order of the key-value pairs is not guaranteed.
 	// If you need to maintain the order of the key-value pairs, use a slice of structs instead.
 	// If you need to iterate over a map in a specific order, you must have a separate data structure that specifies that order.
-
 }
