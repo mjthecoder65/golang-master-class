@@ -7,9 +7,28 @@ Feel free to contribute.
 - [Go By Examples](https://gobyexample.com/)
 
 
-# TOP five Algorithms
-5. Top K Elements algorithms
-4. Sliding Window algorithms
-3. Backtracking
-2. Dynamic programming
-1. DFS and BFS
+## Problem 1
+```go
+func reverseWord(word string) string {
+	runes := []rune(word)
+	left, right := 0, len(runes)-1
+
+	for left < right {
+		runes[left], runes[right] = runes[right], runes[left]
+		left++
+		right--
+	}
+
+	return string(runes)
+}
+
+func ReverseWords(s string) string {
+	words := strings.Split(s, " ")
+
+	for index, word := range words {
+		words[index] = reverseWord(word)
+	}
+
+	return strings.Join(words, " ")
+}
+```
