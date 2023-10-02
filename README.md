@@ -115,7 +115,6 @@ func ReverseVowels(s string) string {
         }
 
         // Move the right pointer until it points to a vowel
-
         for left < right && !isVowel(runes[right]) {
             right--
         }
