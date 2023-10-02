@@ -10,34 +10,34 @@ Feel free to contribute.
 ## Problem 1
 ```go
 // Reverse characters of each word in a string.
-func reverseWord(word string) string {
-	runes := []rune(word)
-	left, right := 0, len(runes)-1
-
-	for left < right {
-		runes[left], runes[right] = runes[right], runes[left]
-		left++
-		right--
-	}
-
-	return string(runes)
-}
-
 func ReverseWords(s string) string {
-	words := strings.Split(s, " ")
+	runes := []rune(s)
+	left := 0
+	for right := 0; right < len(runes); right++ {
+		if runes[right] == ' ' || right == len(runes)-1 {
+			temp_left, temp_right := left, right-1
 
-	for index, word := range words {
-		words[index] = reverseWord(word)
+			if right == len(runes)-1 {
+				temp_right = right
+			}
+
+			for temp_left < temp_right {
+				runes[temp_left], runes[temp_right] = runes[temp_right], runes[temp_left]
+				temp_left++
+				temp_right--
+			}
+
+			left = right + 1
+		}
 	}
-
-	return strings.Join(words, " ")
+	return string(runes)
 }
 ```
 
 ## Problem 2
 ```go
 // Find two numbers whose sum equals the target
-func TwoSumHashTable(nums []int, target int) []int {
+func TwoSum(nums []int, target int) []int {
 	complements := make(map[int]int)
 
 	for index, num := range nums {
