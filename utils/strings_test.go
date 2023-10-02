@@ -25,3 +25,9 @@ func TestJoin(t *testing.T) {
 	require.Equal(t, strings.Join([]string{"Hello", "World"}, "-"), "Hello-World")
 	require.Equal(t, strings.Join([]string{}, " "), "")
 }
+
+func TestReplace(t *testing.T) {
+	require.Equal(t, strings.Replace("Hello World", "World", "Go", 1), "Hello Go")
+	require.Equal(t, strings.Replace("Hello World", "World", "Go", 2), "Hello Go")
+	require.Equal(t, strings.Replace("Hello World", "World", "Go", -1), "Hello Go")
+}
