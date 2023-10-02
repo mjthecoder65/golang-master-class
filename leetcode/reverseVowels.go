@@ -2,6 +2,9 @@ package leetcode
 
 import "strings"
 
+// URL: https://leetcode.com/problems/reverse-vowels-of-a-string/solutions/
+// Title: Reverse Vowels of a String
+
 func isVowel(char rune) bool {
 	vowels := "AEIOUaeiou"
 	return strings.ContainsRune(vowels, char)
