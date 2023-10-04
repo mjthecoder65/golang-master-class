@@ -16,3 +16,8 @@ func JoinString(words []string) string {
 func ReplaceString(str string, old string, new string) string {
 	return strings.Replace(str, old, new, -1)
 }
+
+// Find index of a substring in a string.
+func FindString(str string, substr string) int {
+	return strings.Index(str, substr)
+}
