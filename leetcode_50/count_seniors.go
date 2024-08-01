@@ -1,4 +1,4 @@
-package problems
+package leetcode_50
 
 import "strconv"
 
