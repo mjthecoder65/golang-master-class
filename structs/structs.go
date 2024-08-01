@@ -1,6 +1,9 @@
 package structs
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 /*
 	Structures: User-defined composite data types that can hold data of different types.
@@ -72,6 +75,55 @@ func PrintBookPassedByPointer(book *Book) {
 	fmt.Printf("BookId: %d\n", book.BookId)
 }
 
+// You can as well create Nested Structs.
+type Address struct {
+	Street string
+	City   string
+}
+
+type Person struct {
+	Name    string
+	Age     int
+	Address Address
+}
+
+/*
+Struct Tags:
+Annotations added to struct fields that provide metata. This metadata are used
+for purposes like encoding and decoding  data(JSON, XML), database interaction, or other forms
+of data serialization.
+
+Common Use Case:
+
+	JSON serialization.
+*/
+
+// Example:
+type Token struct {
+	Price string `json:"price"` // specificies that Name should be encoded as "name" in JSON
+	Name  int    `json:"age"`   // Spacifies that Age should be encoded as "age"
+}
+
+type Investment struct {
+	ID          int     `gorm:"primaryKey" json:"id"`
+	ProductName string  `gorm:"column:person_name" json:"product_name"`
+	Amount      float64 `gorm:"column:amount" json:"amount"`
+	Currency    string  `gorm:"column:currency" json:"currency"`
+}
+
+// Embbeded struct
+
+type HomeAddress struct {
+	Street string
+	City   string
+}
+
+type User struct {
+	Name        string
+	Age         int
+	HomeAddress // Embedded struct
+}
+
 func LearnStructures() {
 	var book Book = Book{
 		Title:   "Deep Work",
@@ -105,4 +157,41 @@ func LearnStructures() {
 
 	// Printing the book information using a Method.
 	book.Print()
+
+	// Creating annoymous struct
+	point := struct {
+		X int
+		Y int
+	}{X: 10, Y: 20}
+
+	fmt.Println(point)
+
+	// Accessing Tags Using reflect method.
+	investment := Investment{
+		ID:          1,
+		ProductName: "BTC Income",
+		Amount:      2.5893,
+		Currency:    "BTC",
+	}
+
+	t := reflect.TypeOf(investment)
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		fmt.Printf("%s : %s\n", field.Name, field.Tag.Get("json"))
+	}
+
+	// Embedded struct and member access.
+	user := User{
+		Name: "Michael",
+		Age:  30,
+		HomeAddress: HomeAddress{
+			Street: "Jongam-ro",
+			City:   "Seoul",
+		},
+	}
+
+	fmt.Println(user.Street)
+	fmt.Println(user.Age)
+	fmt.Println(user.Name)
 }
