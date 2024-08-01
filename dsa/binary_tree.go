@@ -38,9 +38,9 @@ func (b *BinaryTree) Add(element int) {
 	// TODO: Implement the logic here.
 }
 
-// Remove element from the tree.
-func (b *BinaryTree) Remove(element int) (int, error) {
-	// TODO: Implement the logic here.
-
-	return 0, nil
+func breadthFirstSearch(root *BSTNode) {
+	if root == nil {
+		return
+	}
+	
 }

@@ -15,9 +15,9 @@ type structName struct {
 }
 */
 
-type Account struct {
-	accountNumber int
-	balance       float64
+type ExchangeAccount struct {
+	AccountNumbe int
+	Balance      float64
 }
 
 // Struct methods.
@@ -31,27 +31,27 @@ func (structName structType) methodName() {
 }
 */
 
-func (account *Account) Deposit(amount float64) {
-	account.balance += amount
+func (account *ExchangeAccount) Deposit(amount float64) {
+	account.Balance += amount
 }
 
-func (account Account) GetCurrentBalance() float64 {
-	return account.balance
+func (account ExchangeAccount) GetCurrentBalance() float64 {
+	return account.Balance
 }
 
-func (account *Account) Withdraw(amount float64) {
-	account.balance -= amount
+func (account *ExchangeAccount) Withdraw(amount float64) {
+	account.Balance -= amount
 }
 
-func (account Account) GetAccountNumber() int {
-	return account.accountNumber
+func (account ExchangeAccount) GetAccountNumber() int {
+	return account.AccountNumbe
 }
 
 func TestStruct() {
 
 	fmt.Println("Learning about structs.")
 
-	account := Account{accountNumber: 12345, balance: 1000.50}
-	fmt.Println(account.accountNumber)
-	fmt.Println(account.accountNumber)
+	account := ExchangeAccount{AccountNumbe: 12345, Balance: 1000.50}
+	fmt.Println(account.AccountNumbe)
+	fmt.Println(account.AccountNumbe)
 }

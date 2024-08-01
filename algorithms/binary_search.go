@@ -8,8 +8,8 @@ package algorithms
 // Space complexity: O(1)
 
 func BinarySearch(elements []int, targetElement int) int {
-	left := 0
-	right := len(elements) - 1
+
+	left, right := 0, len(elements)-1
 
 	for left <= right {
 		mid := left + (right-left)/2 // To avoid overflow
@@ -45,4 +45,55 @@ func BinarySearchRecursive(elements []int, targetElement int, left int, right in
 	} else {
 		return BinarySearchRecursive(elements, targetElement, mid+1, right)
 	}
+}
+
+// Agnostic Binary Search searches for a given element  from a collection of elements.
+// Data structure: Array (sorted) either ascending or descending
+
+func AgnosticBinarySearch(elements []int, targetElement int, start int, end int) int {
+
+	for start <= end {
+		mid := start + (end-start)/2 // To avoid overflow
+
+		if elements[mid] == targetElement {
+			return mid
+		}
+
+		if elements[start] < elements[end] {
+			// Ascending
+			if targetElement < elements[mid] {
+				end = mid - 1
+			} else {
+				start = mid + 1
+			}
+		} else {
+			// Descending
+			if targetElement > elements[mid] {
+				end = mid - 1
+			} else {
+				start = mid + 1
+			}
+		}
+	}
+
+	return -1
+}
+
+// Find index of max value in bitonic array
+
+func FindMaxValueInBitonicArray(elements []int) int {
+	start := 0
+	end := len(elements) - 1
+
+	for start < end {
+		mid := start + (end-start)/2 // To avoid overflow
+
+		if elements[mid] > elements[mid+1] {
+			end = mid
+		} else {
+			start = mid + 1
+		}
+	}
+
+	return start
 }

@@ -11,6 +11,16 @@ import "fmt"
 
 // Variadic functions
 // Variadic functions are functions that take a variable number of arguments.
+// Here a function take any number of postional arguments.
+func AddNumbers(numbers ...int) int {
+	total := 0
+
+	for _, number := range numbers {
+		total += number
+	}
+
+	return total
+}
 
 // Syntax:
 /*
@@ -22,9 +32,11 @@ func functionName(arg ...type) returnType {
 
 func Sum(numbers ...int) int {
 	var total int
+
 	for _, number := range numbers {
 		total += number
 	}
+
 	return total
 }
 

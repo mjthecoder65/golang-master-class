@@ -60,12 +60,12 @@ func Add3(x, y int) (total int, product int) {
 }
 
 // Recursion is supported in Go
-func Factorial(number int) int {
+func Fact(number int) int {
 	if number < 1 {
 		return 1
 	}
 
-	return number * Factorial(number-1)
+	return number * Fact(number-1)
 }
 
 // Variadic functions
