@@ -29,5 +29,6 @@ func TestingConstants() {
 
 	fmt.Printf("The value of PI is %f\n", PI)
 	fmt.Printf("The value of LANGUAGE is %s\n", LANGUAGE)
+	fmt.Println(products)
 
 }
