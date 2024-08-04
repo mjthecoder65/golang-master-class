@@ -10,8 +10,8 @@ import "fmt"
 	 - Go use implicit implementation, meaning you don't need to explicitly declare that a type
 		implement  an interface.
 	 - Types implement the interface by definiting the required methods.
-	 - Empty interface can hold any value
-	 - Type assertions and type switches allow you to interact with underlying values of interfaces
+	 - Empty interface can hold any value.
+	 - Type assertions and type switches allow you to interact with underlying values of interfaces.
 	 - Interface composition allows you to create complex interfaces from simpler ones.
 */
 
@@ -69,5 +69,5 @@ type ReadWriter interface {
 }
 
 func LearnInterfaces() {
-
+	fmt.Println("Hello World!")
 }
