@@ -28,3 +28,7 @@ func CheckingTypes() {
 	fmt.Println(reflect.TypeOf(function))
 
 }
+
+func LearnTypes() {
+	// Type casting
+}

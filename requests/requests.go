@@ -63,8 +63,10 @@ func (post Post) PublishPost(userId int, title string, body string) Post {
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
+
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Accept", "application/json")
+	request.Header.Set("Authorization", "Bearer {token}")
 
 	payload := Post{
 		UserID: userId,
