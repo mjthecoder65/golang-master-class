@@ -60,7 +60,7 @@ type Reader interface {
 }
 
 type Writer interface {
-	Writer(p []byte) (n int, err error)
+	Write(p []byte) (n int, err error)
 }
 
 type ReadWriter interface {
