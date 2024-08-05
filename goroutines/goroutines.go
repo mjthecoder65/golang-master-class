@@ -11,8 +11,7 @@ import (
 	Goroutines allows us to write concurrent programs in Go.
 
 	Goroutine is a lightweight thread of execution.
-
-	Channels:
+	Channels: Make communication between goroutines possible.
 	Mutex:
 	Select:
 	Go runtime scheduler: Handle the distribution of work.
