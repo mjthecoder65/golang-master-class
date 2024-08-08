@@ -34,13 +34,6 @@ type Candle struct {
 	Volume    string `db:"volume" json:"volume"`
 }
 
-type OrderBook struct {
-	Symbol        string     `db:"symbol" json:"symbol"`
-	Bids          [][]string `db:"bids" json:"bids"`
-	Asks          [][]string `db:"asks" json:"asks"`
-	LastUpdatedID int        `db:"last_updated" json:"lastUpdatedId"`
-}
-
 func FetchCandles(symbol string, interval string, limit int, client *binance.Client) {
 	klineService := client.NewKlinesService().Symbol(symbol).Interval(interval).Limit(limit)
 	klines, err := klineService.Do(context.Background())
@@ -70,7 +63,60 @@ func FetchCandles(symbol string, interval string, limit int, client *binance.Cli
 	}
 }
 
-func fetchCandleEveryTwoMinutes(symbol string, interval string, limit int, client *binance.Client) {
+type Bid struct {
+	Price    string `json:"price"`
+	Quantity string `json:"quantity"`
+}
+
+type Ask struct {
+	Price    string `json:"price"`
+	Quantity string `json:"quantity"`
+}
+type OrderBook struct {
+	Symbol        string `db:"symbol" json:"symbol"`
+	Bids          []Bid  `db:"bids" json:"bids"`
+	Asks          []Ask  `db:"asks" json:"asks"`
+	LastUpdatedID int64  `db:"last_updated" json:"lastUpdatedId"`
+}
+
+func FetchOrderBooks(symbol string, limit int, client *binance.Client) OrderBook {
+	/*
+	 Depth: Refers to the market depth, which is the measure of supply and demand
+	 for a particular trading pair (such as BTCUSDT) var varies price level.
+
+	 It shows the available orders in the order book, and is crucial to understanding
+	 market liquidity and potential price movement.
+	*/
+
+	depthService := client.NewDepthService().Symbol(symbol).Limit(1)
+
+	depth, err := depthService.Do(context.Background())
+
+	if err != nil {
+		fmt.Printf("error: failed to fetch order books for %s\n", symbol)
+	}
+
+	var orderBook OrderBook
+	orderBook.LastUpdatedID = depth.LastUpdateID
+
+	for _, ask := range depth.Asks {
+		orderBook.Asks = append(orderBook.Asks, Ask{
+			Price:    ask.Price,
+			Quantity: ask.Quantity,
+		})
+	}
+
+	for _, bid := range depth.Bids {
+		orderBook.Bids = append(orderBook.Bids, Bid{
+			Price:    bid.Price,
+			Quantity: bid.Quantity,
+		})
+	}
+
+	return orderBook
+}
+
+func FetchCandleEveryTwoMinutes(symbol string, interval string, limit int, client *binance.Client) {
 	ticker := time.NewTicker(2 * time.Minute)
 	defer ticker.Stop()
 	for range ticker.C {
@@ -85,9 +131,8 @@ func CollectCandles() {
 	var limit int = 1000
 	var symbol string = "BTCUSDT"
 
-	go fetchCandleEveryTwoMinutes(symbol, interval, limit, client)
+	go FetchCandleEveryTwoMinutes(symbol, interval, limit, client)
 
-	// Start worker goroutines
 	for i := 0; i < NUMBER_OF_WORKERS; i++ {
 		wg.Add(1)
 		go ProcessCandles()
@@ -109,5 +154,4 @@ func ProcessOrderBook() {
 	for orderBook := range orderBookChannel {
 		fmt.Printf("INFO: Received candle for %s ", orderBook.Symbol)
 	}
-
 }
