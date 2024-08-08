@@ -28,6 +28,8 @@ func WorkerMain() {
 		In order to use our pool of workers, we need to send them work and
 		collect their results. We will make two channels for this one.
 	*/
+
+	// Buffered channel. It can hold up to NUMBER_OF_JOBS elements. If we send more than that, the sender will block until the receiver has received some.
 	jobs := make(chan int, NUMBER_OF_JOBS)
 	results := make(chan int, NUMBER_OF_JOBS)
 
@@ -44,6 +46,9 @@ func WorkerMain() {
 	for j := 1; j < NUMBER_OF_JOBS; j++ {
 		jobs <- j
 	}
+
+	// Close the jobs channel to indicate that's all the work we have.
+	// We can't close the results channel because we have multiple workers
 	close(jobs)
 
 	// Finally, we collect results of the work. This ensure that the work

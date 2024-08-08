@@ -26,17 +26,6 @@ const (
 	SSL_MODE    = "disable"
 )
 
-type Candle struct {
-	Symbol    string  `json:"symbol" db:"symbol"`
-	OpenTime  string  `json:"open_time" db:"open_time"`
-	Open      float64 `json:"open" db:"open"`
-	High      float64 `json:"high" db:"high"`
-	Low       float64 `json:"low" db:"low"`
-	Close     float64 `json:"close" db:"close"`
-	Volume    float64 `json:"volume" db:"volume"`
-	CloseTime int64   `json:"close_time" db:"close_time"`
-}
-
 func Fetch(url string, channel chan<- string) {
 	res, err := http.Get(url)
 
