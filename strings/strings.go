@@ -9,7 +9,7 @@ import (
 )
 
 /*
-	strings are readonly slice of bytes.
+	strings are readonly/immutables slice of bytes.
 	Libraries for manipulating strings.
 
 	1. Unicode
@@ -25,9 +25,20 @@ import (
 
 	In Go, rune is used to handle individual characters in strings, and allows you
 	to work a wide range of characters beyong the basic ASCII, including symbols from various
-	languages and script. A basic ASCII can be reprented by byte types (8bits).
+	languages and script. A basic ASCII can be reprented by byte type (8bits).
 
 	byte is an alias for uint8
+
+	Note:
+		1. No concepts of characters like in C++.
+		2. Strings are immutable.
+			var name string = "Michael"
+			name[0] = rune('2') Does not work.
+			- However you can modify by converting string to a slice of rune
+			Modify the charater and convert it back to string
+			runes := []rune(name)
+			runes[0] = 'H'
+			name = string(runes)
 */
 
 func MasteringStrings() {
@@ -62,13 +73,16 @@ func MasteringStrings() {
 	var name string = "Michael Jordan"
 
 	// Check if container a subtring
-	fmt.Println(strings.Contains(name, "Michael"))
+	var substr string = "Michael"
+	fmt.Println(strings.Contains(name, substr))
 
 	// Return index of the first occurency of a substring. -1 if not found.
-	fmt.Println(strings.Index(name, "Michael"))
+	fmt.Println(strings.Index(name, substr))
 
 	// Replace occurency of a substring with another substr.
-	fmt.Println(strings.Replace(name, "Jordan", "Ngowi", 1))
+	var toBeReplaced string = "Jordan"
+	var newSubtr = "Ngowi"
+	fmt.Println(strings.Replace(name, toBeReplaced, newSubtr, 1))
 
 	// Splitting string.
 	names := strings.Split(name, " ")

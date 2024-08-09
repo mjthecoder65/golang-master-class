@@ -3,10 +3,14 @@ package goroutines
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"sync"
 	"time"
 
 	"github.com/adshao/go-binance/v2"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 const (
@@ -15,6 +19,7 @@ const (
 	NUMBER_OF_WORKERS               int    = 5
 	CANDLE_CHANNEL_BUFFER_COUNT     int    = 1000
 	ORDER_BOOK_CHANNEL_BUFFER_COUNT int    = 1000
+	DATABASE_DSN                    string = "host=localhost user=admin password=y7jHf&DNWG15 dbname=main port=5030 sslmode=disable"
 )
 
 var (
@@ -24,14 +29,16 @@ var (
 )
 
 type Candle struct {
-	Symbol    string `db:"symbol" json:"symbol"`
-	OpenTime  int64  `db:"open_time" json:"open_time"`
-	CloseTime int64  `db:"close_time" json:"close_time"`
-	Open      string `db:"open" json:"open"`
-	Close     string `db:"close" json:"close"`
-	High      string `db:"high" json:"high"`
-	Low       string `db:"low" json:"low"`
-	Volume    string `db:"volume" json:"volume"`
+	ID        uint    `db:"id" json:"id" gorm:"primary_key"`
+	Symbol    string  `db:"symbol" json:"symbol"`
+	Interval  string  `db:"symbol" json:"interval"`
+	OpenTime  int64   `db:"open_time" json:"open_time"`
+	CloseTime int64   `db:"close_time" json:"close_time"`
+	Open      float64 `db:"open" json:"open"`
+	Close     float64 `db:"close" json:"close"`
+	High      float64 `db:"high" json:"high"`
+	Low       float64 `db:"low" json:"low"`
+	Volume    float64 `db:"volume" json:"volume"`
 }
 
 func FetchCandles(symbol string, interval string, limit int, client *binance.Client) {
@@ -45,15 +52,22 @@ func FetchCandles(symbol string, interval string, limit int, client *binance.Cli
 	candles := []Candle{}
 
 	for _, kline := range klines {
+		open, _ := strconv.ParseFloat(kline.Open, 64)
+		close, _ := strconv.ParseFloat(kline.Close, 64)
+		high, _ := strconv.ParseFloat(kline.High, 64)
+		low, _ := strconv.ParseFloat(kline.Low, 64)
+		volume, _ := strconv.ParseFloat(kline.Volume, 64)
+
 		candle := Candle{
 			Symbol:    symbol,
+			Interval:  interval,
 			OpenTime:  kline.OpenTime,
 			CloseTime: kline.CloseTime,
-			Open:      kline.Open,
-			Close:     kline.Close,
-			High:      kline.High,
-			Low:       kline.Low,
-			Volume:    kline.Volume,
+			Open:      open,
+			Close:     close,
+			High:      high,
+			Low:       low,
+			Volume:    volume,
 		}
 		candles = append(candles, candle)
 	}
@@ -82,14 +96,12 @@ type OrderBook struct {
 func FetchOrderBooks(symbol string, limit int, client *binance.Client) OrderBook {
 	/*
 	 Depth: Refers to the market depth, which is the measure of supply and demand
-	 for a particular trading pair (such as BTCUSDT) var varies price level.
+	 for a particular trading pair (such as BTCUSDT).
 
 	 It shows the available orders in the order book, and is crucial to understanding
 	 market liquidity and potential price movement.
 	*/
-
 	depthService := client.NewDepthService().Symbol(symbol).Limit(1)
-
 	depth, err := depthService.Do(context.Background())
 
 	if err != nil {
@@ -117,14 +129,24 @@ func FetchOrderBooks(symbol string, limit int, client *binance.Client) OrderBook
 }
 
 func FetchCandleEveryTwoMinutes(symbol string, interval string, limit int, client *binance.Client) {
-	ticker := time.NewTicker(2 * time.Minute)
+	ticker := time.NewTicker(time.Minute / 5)
 	defer ticker.Stop()
 	for range ticker.C {
 		FetchCandles(symbol, interval, limit, client)
 	}
 }
 
-func CollectCandles() {
+func CollectCandlesMain() {
+	db, err := gorm.Open(postgres.Open(DATABASE_DSN), &gorm.Config{})
+
+	if err != nil {
+		log.Fatal("Failed to connect to the database")
+	} else {
+		fmt.Println("Connected to the database...")
+	}
+
+	db.AutoMigrate(&Candle{})
+
 	client := binance.NewClient(BINANCE_API_KEY, BINANCE_API_SECRET_KEY)
 
 	var interval string = "1m"
@@ -135,16 +157,76 @@ func CollectCandles() {
 
 	for i := 0; i < NUMBER_OF_WORKERS; i++ {
 		wg.Add(1)
-		go ProcessCandles()
+		go ProcessCandles(db)
 	}
 	wg.Wait()
 }
 
-func ProcessCandles() {
+func SaveCandle(candle Candle, db *gorm.DB) {
+	result := db.Create(&candle)
+
+	if result.Error != nil {
+		log.Printf("failed to save data to the database: %v", result.Error)
+	} else {
+		fmt.Println("INFO: saved candled the database")
+	}
+}
+
+func AddOrUpdate(candle Candle, db *gorm.DB) {
+	var existingCandle Candle
+	result := db.Where("symbol = ? AND interval = ? AND open_time = ? AND close_time = ?",
+		candle.Symbol, candle.Interval, candle.OpenTime, candle.CloseTime).
+		First(&existingCandle)
+
+	if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+		log.Printf("Error Checking for existing candles: %v", result.Error)
+		return
+	}
+
+	if result.RowsAffected == 0 {
+		if err := db.Create(&candle).Error; err != nil {
+			log.Printf("failed to create new candle: %v", err)
+		} else {
+			log.Println("New candle added.")
+		}
+	} else {
+		existingCandle.Open = candle.Open
+		existingCandle.High = candle.High
+		existingCandle.Low = candle.Low
+		existingCandle.Close = candle.Close
+		existingCandle.Volume = candle.Volume
+		existingCandle.CloseTime = candle.CloseTime
+
+		if err := db.Save(&existingCandle).Error; err != nil {
+			log.Printf("Error updating candle: %v", err)
+		} else {
+			log.Println("Candle have been updated.s")
+		}
+	}
+}
+
+func FindCandles(symbol string, interval string, page int, limit int, db *gorm.DB) []Candle {
+	var candles []Candle
+
+	offset := (page - 1) * limit
+
+	result := db.Where("symbol = ? AND interval = ?", symbol, interval).
+		Order("open_time DESC").
+		Offset(offset).
+		Limit(limit).
+		Find(&candles)
+
+	if result.Error != nil {
+		log.Printf("There are not candles for provided search parameters")
+	}
+
+	return candles
+}
+
+func ProcessCandles(db *gorm.DB) {
 	defer wg.Done()
 	for candle := range candleChannel {
-		fmt.Printf("INFO: Received candle for %s ", candle.Symbol)
-		fmt.Println(candle)
+		SaveCandle(candle, db)
 	}
 }
 
