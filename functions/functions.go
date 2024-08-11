@@ -41,6 +41,7 @@ func GetFullName(firstName string, lastName string) string {
 }
 
 // In Go you can name the return value of a function.
+// But you have to surround the name and type in parenthesis ()
 func Add(x int, y int) (total int) {
 	total = x + y
 	return // Naked return

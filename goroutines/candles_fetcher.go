@@ -28,6 +28,11 @@ var (
 	wg               sync.WaitGroup
 )
 
+type Assets struct {
+	ID   uint   `db:"id" json:"id" gorm:"primary_key"`
+	Name string `db:"name" json:"name"`
+}
+
 type Candle struct {
 	ID        uint    `db:"id" json:"id" gorm:"primary_key"`
 	Symbol    string  `db:"symbol" json:"symbol"`
@@ -144,7 +149,6 @@ func CollectCandlesMain() {
 	} else {
 		fmt.Println("Connected to the database...")
 	}
-
 	db.AutoMigrate(&Candle{})
 
 	client := binance.NewClient(BINANCE_API_KEY, BINANCE_API_SECRET_KEY)
@@ -159,6 +163,7 @@ func CollectCandlesMain() {
 		wg.Add(1)
 		go ProcessCandles(db)
 	}
+
 	wg.Wait()
 }
 
@@ -230,6 +235,7 @@ func ProcessCandles(db *gorm.DB) {
 	}
 }
 
+// My first projects and that can used for backtesting.
 func ProcessOrderBook() {
 	defer wg.Done()
 

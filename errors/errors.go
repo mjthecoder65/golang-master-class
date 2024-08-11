@@ -13,6 +13,7 @@ import (
 		}
 
 	error can be returned as nil or using errors.New() to construct basic error message
+	Note: error messages should in lower case, otherwise panic.
 
 	type errors struct {
 		Message String
