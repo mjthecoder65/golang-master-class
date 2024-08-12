@@ -1,6 +1,9 @@
 package db
 
 import (
+	// sql package is provides generic interface to
+	// interact with sql databese. and should always be
+	// used with drivers.
 	"database/sql"
 	"fmt"
 	"log"
@@ -73,21 +76,26 @@ func GetTodos(db *sql.DB) []string {
 	for rows.Next() {
 		var id int
 		var name string
-		var is_completed bool
+		var isComplete bool
 
-		err = rows.Scan(&id, &name, &is_completed)
+		err := rows.Scan(&id, &name, &isComplete)
 
-		for err != nil {
+		if err != nil {
 			log.Fatal(err)
+			continue
 		}
 
 		todos = append(todos, name)
+
 	}
 
 	return todos
 }
 
 // init function is automatically called when this package is imported.
+// This is useful for initialization and other side effects.
+// For example: pq driver will call Register method of sql package
+// to register a driver.
 func init() {
 	fmt.Println("Package initialization")
 }
