@@ -1,5 +1,7 @@
 package packagemanagement
 
+import "fmt"
+
 /*
 	Package management in Go, involves organizing,
 	importing and managing dependencies for your Go programs.
@@ -59,7 +61,41 @@ Package can be from standard library or third-party libraries.
 
 */
 
+/* Scope and Visibility
+
+1. Exported Names (Public)
+	* In Go, identifiers (variable, name, constants, type, method) that start with
+	an uppercase letter is exported from the package. That means it is accessible by other
+	packages that import it.
+
+2. Exported Structs and Fields
+	* Similar struct types and their fields that start with a capital letters are exported
+	and can be accessed from other packages.
+
+*/
+
+type Person struct {
+	Name string // Exported
+	age  int    // Unexported field.
+}
+
+func ExportedFunction() {
+	fmt.Println("This is exported")
+}
+
+func unexportedFunction() {
+	// this is unexporeted function.
+	fmt.Println("unexported function")
+}
 func LearnPackageManagement() {
 	// Understand go Path and packages are orgnanized
 	// Learn about the necessary commands.
+	unexportedFunction()
+
+	person := Person{
+		Name: "Michael",
+		age:  30,
+	}
+
+	fmt.Println(person.Name, person.age)
 }
