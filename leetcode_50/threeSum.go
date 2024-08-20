@@ -8,7 +8,7 @@ func ThreeSum(numbers []int) [][]int {
 	result := [][]int{}
 	sort.Ints(numbers)
 
-	for i := 0; i < len(numbers); i++ {
+	for i := 0; i < len(numbers)-2; i++ {
 		if i > 0 && numbers[i] == numbers[i-1] {
 			continue
 		}
