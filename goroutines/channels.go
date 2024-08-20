@@ -68,8 +68,7 @@ func CandleWorker(done chan bool) {
 
 func ChannelSynchronization() {
 	/* Here we are using blocking receive to wait for other other goroutine to finish.
-	//However when waiting for multiple goroutines, It is recommended to use a WaitGroup.
-
+	However when waiting for multiple goroutines, It is recommended to use a WaitGroup.
 	*/
 	done := make(chan bool, 1)
 	go CandleWorker(done)

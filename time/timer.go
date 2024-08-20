@@ -41,3 +41,10 @@ func LearnAboutTimers() {
 
 	time.Sleep(2 * time.Second) // Wait for the goroutine to complete
 }
+
+// Handle
+func Processor(deliver chan<- string, receiver <-chan string, id int) {
+	// deliver chan will be used to send messages to other goroutines.
+	// receiver channel will be used to only receive.
+	// This specificity is used to make type safer programs.
+}

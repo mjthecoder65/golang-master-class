@@ -1,4 +1,4 @@
-package main
+package functions
 
 import "fmt"
 
@@ -58,15 +58,6 @@ func Add3(x, y int) (total int, product int) {
 	total = x + y
 	product = x * y
 	return
-}
-
-// Recursion is supported in Go
-func Fact(number int) int {
-	if number < 1 {
-		return 1
-	}
-
-	return number * Fact(number-1)
 }
 
 // Variadic functions
