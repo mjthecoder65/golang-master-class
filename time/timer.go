@@ -47,4 +47,5 @@ func Processor(deliver chan<- string, receiver <-chan string, id int) {
 	// deliver chan will be used to send messages to other goroutines.
 	// receiver channel will be used to only receive.
 	// This specificity is used to make type safer programs.
+
 }
