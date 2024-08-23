@@ -138,6 +138,7 @@ func MasteringStrings() {
 		i, err := strconv.ParseInt("123", 10, 64)
 		u, err := strconv.ParseUint("123", 10, 64)
 
+
 	*/
 
 	// Format Function.
@@ -151,6 +152,6 @@ func MasteringStrings() {
 		strconv.FormatBool(b bool) string
 		strconv.FormatFloat(f float64, fmt byte, prec, bitSize int) string
 		strconv.FormatInt(i int64, base int) string
-		strconv.FormatUint(i uint64, base int) string
+		strconv.FormatUint(i uint64, base int) string /
 	*/
 }

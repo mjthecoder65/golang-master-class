@@ -2,11 +2,6 @@ package leetcode_50
 
 // URL: https://leetcode.com/problems/linked-list-cycle/
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
 // Time complexity: O(N)
 // Space Complexity: O(N)
 func HasCycle(head *ListNode) bool {
