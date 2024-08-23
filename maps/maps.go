@@ -2,6 +2,8 @@ package maps
 
 import (
 	"fmt"
+	"maps"
+	"slices"
 	"time"
 )
 
@@ -16,6 +18,20 @@ type Investment struct {
 	CreateAt     int64   `json:"createdAt"`
 	UpdatedAt    int64   `json:"updatedAT"`
 	Product
+}
+
+func NewFeatures() {
+	hashMap := make(map[int]string)
+	hashMap[1] = "Michael"
+	hashMap[2] = "Jordan"
+
+	keys := slices.Sorted(maps.Keys(hashMap)) // Grab all the keys
+	values := slices.Sorted(maps.Values(hashMap))
+	fmt.Println(values)
+
+	for _, key := range keys {
+		fmt.Println(key)
+	}
 }
 
 func LearnMaps() {

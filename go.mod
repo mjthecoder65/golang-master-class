@@ -1,6 +1,6 @@
 module github.com/mjthecoder65/golang-master-class
 
-go 1.19
+go 1.23
 
 require (
 	github.com/adshao/go-binance/v2 v2.6.0
