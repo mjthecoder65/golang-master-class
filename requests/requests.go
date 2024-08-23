@@ -3,6 +3,7 @@ package requests
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -134,4 +135,55 @@ func HTTPRequests() {
 	for _, user := range users {
 		user.Print()
 	}
+}
+
+type Candle struct {
+	OpenTime  float64
+	Open      string
+	High      string
+	Low       string
+	Close     string
+	Volume    string
+	CloseTime float64
+}
+
+const (
+	BINANCE_API_URL string = "https://api.binance.com/api/v3"
+)
+
+func fetchCandles(symbol string, interval string, limit int) ([]Candle, error) {
+	URL := fmt.Sprintf("%s/klines?symbol=%s&interval=%s&limit=%d", BINANCE_API_URL, symbol, interval, limit)
+
+	res, err := http.Get(URL)
+
+	if err != nil {
+		return []Candle{}, errors.New("error: failed to fetch candles")
+	}
+
+	defer res.Body.Close()
+
+	var data [][]any
+
+	err = json.NewDecoder(res.Body).Decode(&data)
+
+	if err != nil {
+		return []Candle{}, errors.New("error: failed to decode the result")
+	}
+
+	var candles []Candle
+
+	for _, item := range data {
+		candle := Candle{
+			OpenTime:  item[0].(float64), // Convert to the appropriate type
+			Open:      item[1].(string),
+			High:      item[2].(string),
+			Low:       item[3].(string),
+			Close:     item[4].(string),
+			Volume:    item[5].(string),
+			CloseTime: item[6].(float64), // Convert to the appropriate type
+		}
+		candles = append(candles, candle)
+	}
+
+	return candles, nil
 }
