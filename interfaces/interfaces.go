@@ -44,7 +44,8 @@ func PrintSpeak(animal Animal) {
 
 /*
 Empty Interface:
-Has no method. it can hold any values of any of type because it has not method.
+Has no method. it can hold any values of any of type.
+any is an alias for interface{}
 */
 func PrintAnyThing(value interface{}) {
 	fmt.Println(value)
@@ -69,5 +70,18 @@ type ReadWriter interface {
 }
 
 func LearnInterfaces() {
-	fmt.Println("Hello World!")
+	/* Type assertion in Go. I used to retrieve the underlying value of an interface
+	if you know (or believe ) that the value stored in the interface is of a specific type.
+	Syntax: value := variable.(Type)
+	*/
+
+	var number interface{} = 3.14
+
+	value, ok := number.(float64)
+
+	if ok {
+		fmt.Printf("The value is a float64: %f\n", value)
+	} else {
+		fmt.Println("The value is not float a float64")
+	}
 }

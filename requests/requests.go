@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 )
 
 type Address struct {
@@ -147,14 +148,16 @@ type Candle struct {
 	CloseTime float64
 }
 
-const (
-	BINANCE_API_URL string = "https://api.binance.com/api/v3"
-)
+func FetchCandles(symbol string, interval string, limit int) ([]Candle, error) {
+	serverURL := &url.URL{
+		Scheme:   "https",
+		Host:     "api.binance.com",
+		Path:     "/api/v3/klines",
+		RawQuery: fmt.Sprintf("symbol=%s&interval=%s&limit=%d", symbol, interval, limit),
+	}
 
-func fetchCandles(symbol string, interval string, limit int) ([]Candle, error) {
-	URL := fmt.Sprintf("%s/klines?symbol=%s&interval=%s&limit=%d", BINANCE_API_URL, symbol, interval, limit)
-
-	res, err := http.Get(URL)
+	fmt.Println(serverURL.String())
+	res, err := http.Get(serverURL.String())
 
 	if err != nil {
 		return []Candle{}, errors.New("error: failed to fetch candles")
@@ -174,14 +177,15 @@ func fetchCandles(symbol string, interval string, limit int) ([]Candle, error) {
 
 	for _, item := range data {
 		candle := Candle{
-			OpenTime:  item[0].(float64), // Convert to the appropriate type
+			OpenTime:  item[0].(float64),
 			Open:      item[1].(string),
 			High:      item[2].(string),
 			Low:       item[3].(string),
 			Close:     item[4].(string),
 			Volume:    item[5].(string),
-			CloseTime: item[6].(float64), // Convert to the appropriate type
+			CloseTime: item[6].(float64),
 		}
+
 		candles = append(candles, candle)
 	}
 
