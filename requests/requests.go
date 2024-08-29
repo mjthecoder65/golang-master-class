@@ -10,6 +10,17 @@ import (
 	"net/url"
 )
 
+/*  New Realization:
+json: use case sensitive to map json field to a struct.
+http.Response object contain Body and StatusCode
+
+# http has HTTP status codes
+http.StatusOk
+http.StatusBadGateWay
+http.StatusBadRequest
+
+*/
+
 type Address struct {
 	Street  string `json:"street"`
 	Suite   string `json:"suite"`
