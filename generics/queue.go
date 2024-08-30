@@ -1,4 +1,4 @@
-package dsa
+package generics
 
 import "errors"
 
